@@ -1,0 +1,144 @@
+@import './base.css';
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-image: url('./wavy-lines.svg');
+  background-size: cover;
+  user-select: none;
+}
+
+code {
+  font-weight: 600;
+  padding: 3px 5px;
+  border-radius: 2px;
+  background-color: var(--color-background-mute);
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    Liberation Mono,
+    monospace;
+  font-size: 85%;
+}
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 80px;
+}
+
+
+.input-container{
+  display: flex;
+  overflow: hidden;
+  width: 80vw;
+  margin: auto;
+  border-radius: 20px;
+  border: 2px solid black
+}
+
+input{
+  padding: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-left: 1px solid black;
+}
+
+input:focus{
+  outline:none;
+}
+
+button {
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+
+}
+
+.date{
+  flex: 2;
+}
+
+.input{
+  flex: 8;
+}
+
+.add-task{
+  flex: .5;
+  padding: 10px;
+  border-left: 1px solid black;
+  background-color: whitesmoke;
+}
+
+.add-task:active{
+  background-color: #e3e3e3;
+}
+
+.plan{
+  display: flex;
+  width: 90vw;
+  height: fit-content;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 2px solid black;
+  background-color: white;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.plan-date{
+  flex: 3;
+  padding: 5px;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.plan-task{
+  flex: 10;
+  padding: 5px;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  border-left: 1px solid black;
+}
+
+.plan-delete{
+  flex: 1;
+  align-self: stretch;
+  border-left: 1px solid black;
+  background-color: whitesmoke;
+}
+
+.plan-delete:active{
+  background-color: #e3e3e3;
+}
+
+
+
+@media (max-width: 720px) {
+  .text {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 620px) {
+  .versions {
+    display: none;
+  }
+}
+
+@media (max-width: 350px) {
+  .tip,
+  .actions {
+    display: none;
+  }
+}
