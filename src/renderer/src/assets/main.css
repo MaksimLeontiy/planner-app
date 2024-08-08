@@ -104,6 +104,7 @@ button {
 
 .plan-task{
   flex: 10;
+  overflow-wrap: anywhere;
   padding: 5px;
   color: black;
   font-weight: bold;

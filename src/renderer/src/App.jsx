@@ -6,6 +6,7 @@ function App() {
   const [task, setTask] = useState("");
   const [date, setDate] = useState("");
   const [plan, setPlan] = useState([]);
+  const currentDate = new Date();
 
   useEffect(() => {
     (async () => {
@@ -30,12 +31,12 @@ function App() {
 
     setTask("");
     setDate("");
-    setState(1);
+    setState(state + 1);
   };
 
   const deleteItem = async (index) => {
     await window.ipcRenderer.deletePlan(index);
-    setState(2);
+    setState(state + 1);
   };
 
   return (
@@ -69,17 +70,21 @@ function App() {
             Send IPC
           </a>
           <div>
-            {plan.map((item, index) => (
+            {plan.sort((a, b) => Date.parse(new Date(a.date.split("/").reverse().join("-"))) - Date.parse(new Date(b.date.split("/").reverse().join("-"))))
+              .map((item, index) => {const difference = Math.round((new Date(item.date) - currentDate) / 86400000)
+                return (
               <div key={index}>
-                <div className="plan">
-                  <p className="plan-date">Date: {item.date}</p>
+                <div
+                  style = {{backgroundColor: difference < 7 ? "red" : difference >= 7 && difference < 14 ? "yellow" : "green"}}
+                  className="plan">
+                  <p className="plan-date">Date: {item.date} {difference}</p>
                   <p className="plan-task">Task: {item.task}</p>
                   <button className="plan-delete" onClick={() => deleteItem(index)}>
                     Delete
                   </button>
                 </div>
               </div>
-            ))}
+            )})}
           </div>
         </div>
       </div>
