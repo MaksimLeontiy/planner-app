@@ -91,6 +91,13 @@ app.whenReady().then(() => {
     await writeTasks(tasks)
   })
 
+  ipcMain.handle('edit-plan', async (event, index, options) => {
+    const tasks = readTasks()
+
+    tasks.splice(index, 1, options)
+
+    await writeTasks(tasks)
+  })
 
   createWindow()
 

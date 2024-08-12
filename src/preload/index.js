@@ -15,6 +15,7 @@ if (process.contextIsolated) {
       readFile: () => ipcRenderer.invoke('get-plan'),
       writeFile: (options) => ipcRenderer.invoke('write-plan', options),
       deletePlan: (index) => ipcRenderer.invoke('delete-plan', index),
+      editPlan: (index, options) => ipcRenderer.invoke('edit-plan', index, options),
     });
   } catch (error) {
     console.error(error)
