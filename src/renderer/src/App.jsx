@@ -6,6 +6,7 @@ function App() {
   const [task, setTask] = useState("");
   const [date, setDate] = useState("");
   const [plan, setPlan] = useState([]);
+  const [displayTask, setDisplayTask] = useState([]);
   const currentDate = new Date();
 
   useEffect(() => {
@@ -16,9 +17,9 @@ function App() {
     })();
   }, [state]);
 
-  const ipcHandle = () => {
+ /* const ipcHandle = () => {
     window.electron.ipcRenderer.send("ping");
-  };
+  };*/
 
   const options = {
     date: date,
@@ -33,7 +34,7 @@ function App() {
     setDate("");
     setState(state + 1);
   };
-
+/*
   const deleteItem = async (index) => {
     await window.ipcRenderer.deletePlan(index);
     setState(state + 1);
@@ -42,67 +43,77 @@ function App() {
   const editPlan = async (index) => {
     await window.ipcRenderer.editPlan(index, options);
     setState(state + 1);
+  };
+*/
+  const displayTaskToView = async (item) => {
+    setDisplayTask(item);
   }
 
 
   return (
     <>
-      <div className="container2">
-
       <div className="container">
-        <div className="input-container">
-
-          <input
-            value={date}
-            type="date"
-            className="date"
-            onChange={(e) => setDate(e.target.value)}
-          />
-
-          <input
-            value={task}
-            className="input"
-            placeholder="Write Task Here..."
-            onChange={(e) => setTask(e.target.value)}
-          />
-
-          <button
-            className="add-task"
-            onClick={writeFile}>
-            Add
-          </button>
-
-        </div>
-
         <div className="action">
           <div>
-            {plan.sort((a, b) => Date.parse(new Date(a.date.split("/").reverse().join("-"))) - Date.parse(new Date(b.date.split("/").reverse().join("-"))))
-              .map((item, index) => {const difference = Math.round((new Date(item.date) - currentDate) / 86400000)
+            {plan
+              .sort((a, b) => new Date(a.date) - new Date(b.date))  // Sort by date
+              .map((item, index) => {
+                const itemDate = new Date(item.date);  // Parse the MM/DD/YYYY date
+                const difference = Math.round((itemDate - currentDate) / 86400000);  // Calculate day difference
+
                 return (
-              <div key={index}>
-                <div
-                  style={{ backgroundColor: difference < 7 ? "#ff7979" : difference >= 7 && difference < 14 ? "#ffff80" : "#7fff7f" }}
-                  className="plan">
-                  <p className="plan-date">Date: {item.date} {difference}</p>
-                  <p className="plan-task">Task: {item.task}</p>
-                  <button
-                    className="plan-delete"
-                    onClick={() => editPlan(index)}>
-                    Edit
-                  </button>
-                  <button
-                    className="plan-delete"
-                    onClick={() => deleteItem(index)}>
-                    Delete
-                  </button>
-                </div>
-              </div>
-                )
+                  <div key={index}>
+                    <div className="plan">
+                      <div
+                        onClick={() => displayTaskToView(item)}
+                        className="plan-date"
+                        style={{
+                          backgroundColor:
+                            difference < 7 ? "#ff7979" :
+                              difference >= 7 && difference < 14 ? "#ffff80" : "#7fff7f"
+                        }}>
+                        {item.date}
+                      </div>
+                    </div>
+                  </div>
+                );
               })}
+
           </div>
         </div>
+
+        <div className="right-side">
+          <div className="input-container">
+
+            <input
+              value={date}
+              type="date"
+              className="date"
+              onChange={(e) => setDate(e.target.value)}
+            />
+
+            <input
+              value={task}
+              className="input"
+              placeholder="Write Task Here..."
+              onChange={(e) => setTask(e.target.value)}
+            />
+
+            <button
+              className="add-task"
+              onClick={writeFile}>
+              Add
+            </button>
+
+          </div>
+
+          <div className="display-plan">
+            {displayTask.task}
+          </div>
+
+        </div>
       </div>
-      </div>
+
     </>
   );
 }
